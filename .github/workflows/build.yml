@@ -2,30 +2,27 @@ name: Build Noti APK
 
 on:
 workflow_dispatch:
-push:
-branches: [principal, main, master]
 
 jobs:
 build:
 runs-on: ubuntu-latest
 steps:
-- name: Checkout source
+- name: Checkout
 uses: actions/checkout@v4
 
-  - name: Set up Java
+  - name: Install Java
     uses: actions/setup-java@v4
     with:
       distribution: temurin
       java-version: '17'
 
-  - name: Build APK
-    run: chmod +x gradlew && ./gradlew assembleDebug --stacktrace
+  - name: Compile APK
+    run: |
+      chmod +x gradlew
+      ./gradlew assembleDebug --stacktrace
 
   - name: Upload APK
-    if: success()
     uses: actions/upload-artifact@v4
     with:
       name: Noti-debug-APK
       path: app/build/outputs/apk/debug/*.apk
-      if-no-files-found: error
-      retention-days: 7
