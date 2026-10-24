@@ -3,18 +3,14 @@ name: Build Noti APK
 on:
 workflow_dispatch:
 push:
-branches:
-- principal
-- main
-- master
+branches: [principal, main, master]
 
 jobs:
 build:
 runs-on: ubuntu-latest
-
 steps:
-  - name: Checkout source
-    uses: actions/checkout@v4
+- name: Checkout source
+uses: actions/checkout@v4
 
   - name: Set up Java
     uses: actions/setup-java@v4
@@ -23,9 +19,7 @@ steps:
       java-version: '17'
 
   - name: Build APK
-    run: |
-      chmod +x gradlew
-      ./gradlew assembleDebug --stacktrace
+    run: chmod +x gradlew && ./gradlew assembleDebug --stacktrace
 
   - name: Upload APK
     if: success()
